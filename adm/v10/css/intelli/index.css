@@ -1,0 +1,9 @@
+.div_recommend {background-color:#1d263a;}
+.div_recommend:after {display:block;visibility:hidden;clear:both;content:'';}
+.title01 {position:relative;border-bottom:solid 2px #0a1428;padding:7px 10px;}
+.cont01 {padding:7px 10px;}
+.cont01 .rec_item {display:inline-block;width:110px;border:solid 2px #545b6c;vertical-align:top;color:#c1c4d2;padding:5px;margin-bottom:5px;}
+.cont01 .rec_item p {font-size:0.7em;}
+.cont01 .rec_item strong {display:block;font-size:1.5em;color:white;font-weight:500;}
+.cont01 .rec_item span {display:block;font-size:0.6em;margin-top:-2px;}
+.btn_more {position:absolute;top:8px;right:10px;font-size:0.8em;}
