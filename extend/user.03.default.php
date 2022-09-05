@@ -19,13 +19,13 @@ if($member['mb_id']&&$g5['dir_name']=='adm'&&$g5['file_name']=='index') {
 	goto_url(G5_USER_ADMIN_URL);
 }
 
-// 디비 테이블 메타 확장 -----------------
-//설정 테이블 추출 ($g5['setting'] 과 같은 환경설정 변수를 저장합니다.)
+// 공통 setting테이블 확장 -----------------
+//공통설정 테이블 추출 ($g5['setting'] 과 같은 환경설정 변수를 저장합니다.)
 $result = sql_query("   SELECT set_name, set_value
                         FROM {$g5['setting_table']}
                         WHERE set_key = 'site'
                             AND set_auto_yn = '1'
-                            AND (set_country = '".$g5['setting']['set_default_country']."' OR set_country = 'global') 
+                            AND com_idx = '0'
 ");
 for ($i=0; $row=sql_fetch_array($result); $i++) {
 	$g5['setting'][$row['set_name']] = $row['set_value'];
@@ -62,8 +62,53 @@ for ($i=0; $row=sql_fetch_array($result); $i++) {
             // }    // <<<<<<< test
         }
     }
-    // unset($set_values);unset($set_value);
-    
+    // unset($set_values);unset($set_value);   
+}
+
+// 디비 테이블 메타 확장 -----------------
+//설정 테이블 추출 ($g5['setting'] 과 같은 환경설정 변수를 저장합니다.)
+$resultc = sql_query("   SELECT set_name, set_value
+                        FROM {$g5['setting_table']}
+                        WHERE set_key = 'site'
+                            AND set_auto_yn = '1'
+                            AND com_idx = '{$_SESSION['ss_com_idx']}'
+");
+for ($i=0; $row=sql_fetch_array($resultc); $i++) {
+	$g5['com_setting'][$row['set_name']] = $row['set_value'];
+    // 두줄 이상의 복잡한 구조 변수는 건너뜀
+    $set_values = explode("\n", trim($g5['com_setting'][$row['set_name']]));
+    if(sizeof($set_values)>1) {
+        continue;
+    }
+	// A=B 형태를 가지고 있으면 자동 할당
+	$set_values = explode(',', preg_replace("/\s+/", "", $g5['com_setting'][$row['set_name']]));
+    foreach ($set_values as $set_value) {
+        if( !preg_match("/(_subject|_content)$/",$row['set_name']) ) {
+            // if( preg_match("/set_cam_type/",$row['set_name']) ) {   // <<<<<<< test
+            // print_r3($row['set_name']);
+            // print_r3('----------------');
+            // print_r3($set_value);
+            // print_r3(' value ----------------');
+            //변수가 (,),(=)로 구분되어 있을때
+            if( preg_match("/=/",$set_value) ) {
+                list($key, $value) = explode('=', $set_value);
+                $g5[$row['set_name']][$key] = $value.' ('.$key.')';
+                $g5[$row['set_name'].'_value'][$key] = $value;
+                $g5[$row['set_name'].'_reverse'][$value] = $key;
+                $g5[$row['set_name'].'_arr'][] = $key;
+                $g5[$row['set_name'].'_value_arr'][] = $value;
+                $g5[$row['set_name'].'_radios'] .= '<label for="'.$row['set_name'].'_'.$key.'" class="'.$row['set_name'].'"><input type="radio" id="'.$row['set_name'].'_'.$key.'" name="'.$row['set_name'].'" value="'.$key.'">'.$value.'('.$key.')</label>';
+                $g5[$row['set_name'].'_options'] .= '<option value="'.trim($key).'">'.trim($value).' ('.$key.')</option>';
+                $g5[$row['set_name'].'_value_options'] .= '<option value="'.trim($key).'">'.trim($value).'</option>';
+            }
+            //변수가 (,)로만 구분되어 있을때
+            else {
+                $g5[$row['set_name'].'_array'][] = $set_value;
+            }
+            // }    // <<<<<<< test
+        }
+    }
+    // unset($set_values);unset($set_value);   
 }
 // unset($g5['setting']);
 // unset($g5['debug_msg']);

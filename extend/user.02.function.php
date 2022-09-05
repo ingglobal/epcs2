@@ -824,13 +824,13 @@ function setting_update($set_array)
 {
 	global $g5,$config;
 
-	$set_country = ($set_array['set_country'])? $set_array['set_country']:$g5['setting']['set_default_country'];
+	$com_idx = ($set_array['com_idx'])? $set_array['com_idx']:$g5['setting']['set_default_country'];
 	$set_key = ($set_array['set_key']) ? $set_array['set_key']:'site';
 	$set_auto_yn = ($set_array['set_auto_yn'])? 1:0;
 
 	$row1 = sql_fetch(" SELECT * FROM {$g5['setting_table']} 
 						WHERE set_name='{$set_array['set_name']}' 
-							AND set_country='$set_country' 
+							AND com_idx='$com_idx' 
 							AND set_key = '{$set_key}' ");
 	if($row1['set_idx']) {
 		sql_query(" UPDATE {$g5['setting_table']} SET 
@@ -844,7 +844,7 @@ function setting_update($set_array)
 						set_key='{$set_key}', 
 						set_name='{$set_array['set_name']}', 
 						set_value='{$set_array['set_value']}', 
-						set_country='$set_country', 
+						com_idx='$com_idx', 
 						set_auto_yn='$set_auto_yn' ", 1);
 	}
 }

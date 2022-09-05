@@ -45,6 +45,13 @@ if ($config['cf_sms_use'] && $config['cf_icode_id'] && $config['cf_icode_pw']) {
 		</colgroup>
 		<tbody>
 		<tr>
+			<th scope="row">업체기본폴더명</th>
+			<td colspan="3">
+				<?php echo help('업체관련 디렉토리는 업체영문명으로 생성합시다.') ?>
+				<input type="text" name="set_com_directory_name" value="<?php echo $g5['setting']['set_com_directory_name'] ?>" id="set_status" required class="required frm_input" style="width:60%;">
+			</td>
+		</tr>
+		<tr>
 			<th scope="row">주조기설정</th>
 			<td colspan="3">
 				<?php echo help('주조기 번호와 설비DB고유번호(mms고유번호)를 매칭합니다. LPM05=60(17호기), LPM04=61(18호기), LPM03=62(19호기), LPM02=63(20호기)') ?>
