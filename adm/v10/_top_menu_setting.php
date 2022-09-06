@@ -11,8 +11,11 @@ if($member['mb_level']>=9) {
 ${'active_'.$g5['file_name']} = ' btn_top_menu_active';
 $g5['container_sub_title'] = '
 <h2 id="container_sub_title">
-    <a href="./config_form.php" class="btn_top_menu '.$active_config_form.'">솔루션설정</a>
-    <a href="./term_list.php" class="btn_top_menu '.$active_term_list.'">분류설정</a>
+    <a href="./config_com_form.php" class="btn_top_menu '.$active_config_com_form.'">업체환경설정</a>
+    <a href="./term_com_list.php" class="btn_top_menu '.$active_term_com_list.'">엡체분류설정</a>
+    <a href="./config_form.php" class="btn_top_menu '.$active_config_form.'">공통환경설정</a>
+    <a href="./term_list.php" class="btn_top_menu '.$active_term_list.'">공통분류설정</a>
+    <a href="./company_list.php" class="btn_top_menu '.$active_company_list.'">업체관리</a>
 	'.$sub_title_list.'
 </h2>
 ';

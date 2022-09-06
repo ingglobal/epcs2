@@ -142,7 +142,7 @@ function trm_idx_update($str) {
         $one = sql_fetch($sql1,1);
 
         $sql = " INSERT INTO {$g5['term_table']} SET
-                    trm_country = 'ko_KR'
+                    com_idx = '0'
                     , trm_name = '".$str."'
                     , trm_taxonomy = 'maintain'
                     , trm_sort = '".($one['trm_sort']+1)."'

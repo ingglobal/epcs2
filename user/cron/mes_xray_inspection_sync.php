@@ -143,7 +143,7 @@ for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
     // $row['EVENT_TIME'] = substr($arr['EVENT_TIME'],0,19);
     // print_r2($arr);
     // 품질 정보 임시 입력
-    if($g5['setting']['set_xray_test_yn']) {
+    if($g5['com_setting']['set_xray_test_yn']) {
         for($j=1;$j<19;$j++) {
             // 해당 포지션의 배열값이 있으면 랜덤선택
             if($position_result[$j]) {
@@ -214,7 +214,7 @@ for ($i=0; $row=$result->fetch(PDO::FETCH_ASSOC); $i++) {
 
     // 주조코드 테스트 입력 (2시간 전에 주조코드가 들어갔다고 가정함)
     // qr_cast_code 테이블에 임시로 입력
-    if($g5['setting']['set_dicast_test_yn']) {
+    if($g5['com_setting']['set_dicast_test_yn']) {
         $qr_time = get_qr_time($arr['qrcode']);
         // $cast_time = get_cast_time('825442610','3289922');
         // echo $cast_time.' -------- <br>';

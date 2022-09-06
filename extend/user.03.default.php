@@ -20,6 +20,7 @@ if($member['mb_id']&&$g5['dir_name']=='adm'&&$g5['file_name']=='index') {
 }
 
 // 공통 setting테이블 확장 -----------------
+$g5['ingglobal'] = sql_fetch(" SELECT * FROM {$g5['company_table']} WHERE com_biz_no IN('5058160327','505-81-60327') ");
 //공통설정 테이블 추출 ($g5['setting'] 과 같은 환경설정 변수를 저장합니다.)
 $result = sql_query("   SELECT set_name, set_value
                         FROM {$g5['setting_table']}

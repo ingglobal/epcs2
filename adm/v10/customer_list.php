@@ -1,11 +1,11 @@
 <?php
-$sub_menu = "910150";
+$sub_menu = "940115";
 include_once('./_common.php');
 
 auth_check($auth[$sub_menu],"r");
 
 
-// print_r3($_SESSION['ss_com_idx']);
+// print_r3($_SESSION['ss_cst_idx']);
 if($_SESSION['ss_com_idx']&&$is_admin=='super') {
     $com = get_table_meta('company','com_idx',$_SESSION['ss_com_idx']);
     // print_r2($com);
@@ -13,40 +13,41 @@ if($_SESSION['ss_com_idx']&&$is_admin=='super') {
 }
 
 $g5['title'] = '업체관리'.$com_name;
-@include_once('./_top_menu_company.php');
+// @include_once('./_top_menu_company.php');
 include_once('./_head.php');
 echo $g5['container_sub_title'];
 
 
-$sql_common = " FROM {$g5['company_table']} AS com 
-                LEFT JOIN {$g5['company_member_table']} AS cmm ON cmm.com_idx = com.com_idx AND cmm_status = 'ok'
-                LEFT JOIN {$g5['member_table']} AS mb ON mb.mb_id = cmm.mb_id AND mb_level >= 4
+$sql_common = " FROM {$g5['customer_table']} AS cst 
+                LEFT JOIN {$g5['customer_member_table']} AS ctm ON ctm.cst_idx = cst.cst_idx AND ctm_status = 'ok'
+                LEFT JOIN {$g5['member_table']} AS mb ON mb.mb_id = ctm.mb_id AND mb_level >= 4
 "; 
 
 //-- 업종 검색
-$sql_com_type = ($ser_com_type) ? " AND com_type IN ('".$ser_com_type."') " : "";
+$sql_cst_type = ($ser_cst_type) ? " AND cst_type IN ('".$ser_cst_type."') " : "";
 
 $where = array();
-$where[] = " com_status NOT IN ('trash','delete') ";   // 디폴트 검색조건
+$where[] = " com_idx = '{$com['com_idx']}' ";   // 디폴트 검색조건
+$where[] = " cst_status NOT IN ('trash','delete') ";   // 디폴트 검색조건
 
 // 운영권한이 없으면 자기것만
 if (!$member['mb_manager_yn']) {
     // company_saler 교차 테이블에서 내 것만 추출
-    $where[] = " com.com_idx IN ( SELECT com.com_idx
-        FROM {$g5['company_table']} AS com
-            LEFT JOIN {$g5['company_saler_table']} AS cms ON cms.com_idx = com.com_idx
+    $where[] = " cst.cst_idx IN ( SELECT cst.cst_idx
+        FROM {$g5['customer_table']} AS com
+            LEFT JOIN {$g5['customer_saler_table']} AS cms ON cts.cst_idx = cst.cst_idx
         WHERE mb_id_saler = '".$member['mb_id']."'
-        GROUP BY com.com_idx ) ";
+        GROUP BY cst.cst_idx ) ";
     // 관련직원(영업자) 추가쿼리
     $sql_mb_firms = " AND mb_id = '".$member['mb_id']."' ";
 }
 
 if ($stx) {
     switch ($sfl) {
-		case 'com_name' :
-            $where[] = " ( com_name LIKE '%{$stx}%' OR com_names LIKE '%{$stx}%' ) ";
+		case 'cst_name' :
+            $where[] = " ( cst_name LIKE '%{$stx}%' OR cst_names LIKE '%{$stx}%' ) ";
             break;
-		case ( $sfl == 'mb_id' || $sfl == 'com_idx' ) :
+		case ( $sfl == 'mb_id' || $sfl == 'cst_idx' ) :
             $where[] = " ({$sfl} = '{$stx}') ";
             break;
 		case ($sfl == 'mb_hp') :
@@ -70,7 +71,7 @@ if ($where)
 
 
 if (!$sst) {
-    $sst = "com_reg_dt";
+    $sst = "cst_reg_dt";
     $sod = "DESC";
 }
 $sql_order = " ORDER BY {$sst} {$sod} ";
@@ -79,17 +80,17 @@ $rows = $config['cf_page_rows'];
 if (!$page) $page = 1; // 페이지가 없으면 첫 페이지 (1 페이지)
 $from_record = ($page - 1) * $rows; // 시작 열을 구함
 
-$sql = " SELECT SQL_CALC_FOUND_ROWS DISTINCT com.com_idx, com_name, com_names, com_type, com_reg_dt, com_status
-            ,com_tel, com_president, com_email, com_fax
+$sql = " SELECT SQL_CALC_FOUND_ROWS DISTINCT cst.cst_idx, cst_name, cst_names, cst_type, cst_reg_dt, cst_status
+            ,cst_tel, cst_president, cst_email, cst_fax
             ,GROUP_CONCAT( CONCAT(
-                'mb_id=', cmm.mb_id, '^'
-                ,'cmm_title=', cmm.cmm_title, '^'
+                'mb_id=', ctm.mb_id, '^'
+                ,'ctm_title=', ctm.ctm_title, '^'
                 ,'mb_name=', mb_name, '^'
                 ,'mb_hp=', mb_hp
-            ) ORDER BY cmm_reg_dt DESC ) AS com_namagers_info
+            ) ORDER BY ctm_reg_dt DESC ) AS cst_namagers_info
 		{$sql_common}
-		{$sql_search} {$sql_com_type} {$sql_trm_idx_department}
-        GROUP BY com_idx
+		{$sql_search} {$sql_cst_type} {$sql_trm_idx_department}
+        GROUP BY cst_idx
         {$sql_order}
 		LIMIT {$from_record}, {$rows} 
 ";
@@ -101,7 +102,7 @@ $total_page  = ceil($total_count / $rows);  // 전체 페이지 계산
 
 
 // 등록 대기수
-$sql = " SELECT count(*) AS cnt FROM {$g5['company_table']} AS com {$sql_join} WHERE com_status = 'pending' ";
+$sql = " SELECT count(*) AS cnt FROM {$g5['company_table']} AS com {$sql_join} WHERE cst_status = 'pending' ";
 $row = sql_fetch($sql);
 $pending_count = $row['cnt'];
 
@@ -110,7 +111,7 @@ $listall = '<a href="'.$_SERVER['SCRIPT_NAME'].'" class="ov_listall">전체목�
 $colspan = 11;
 
 // 검색어 확장
-$qstr .= $qstr.'&ser_trm_idxs='.$ser_trm_idxs.'&ser_com_type='.$ser_com_type.'&ser_trm_idx_salesarea='.$ser_trm_idx_salesarea;
+$qstr .= $qstr.'&ser_trm_idxs='.$ser_trm_idxs.'&ser_cst_type='.$ser_cst_type.'&ser_trm_idx_salesarea='.$ser_trm_idx_salesarea;
 ?>
 <style>
     .b_default_company {color:#ff4081;}
@@ -123,19 +124,19 @@ $qstr .= $qstr.'&ser_trm_idxs='.$ser_trm_idxs.'&ser_com_type='.$ser_com_type.'&s
 
 <form id="fsearch" name="fsearch" class="local_sch01 local_sch" method="get">
 <label for="sfl" class="sound_only">검색대상</label>
-<select name="ser_com_type" class="cp_field" title="업종선택">
+<select name="ser_cst_type" class="cp_field" title="업종선택">
 	<option value="">전체업종</option>
-	<?=$g5['set_com_type_options_value']?>
+	<?=$g5['set_cst_type_options_value']?>
 </select>
-<script>$('select[name=ser_com_type]').val('<?=$_GET['ser_com_type']?>').attr('selected','selected');</script>
+<script>$('select[name=ser_cst_type]').val('<?=$_GET['ser_cst_type']?>').attr('selected','selected');</script>
 <select name="sfl" id="sfl">
-	<option value="com_name"<?php echo get_selected($_GET['sfl'], "com_name"); ?>>업체명</option>
+	<option value="cst_name"<?php echo get_selected($_GET['sfl'], "cst_name"); ?>>업체명</option>
     <option value="mb_name"<?php echo get_selected($_GET['sfl'], "mb_name"); ?>>담당자</option>
     <option value="mb_hp"<?php echo get_selected($_GET['sfl'], "mb_hp"); ?>>담당자휴대폰</option>
-    <option value="com_president"<?php echo get_selected($_GET['sfl'], "com_president"); ?>>대표자</option>
-	<option value="com.com_idx"<?php echo get_selected($_GET['sfl'], "com.com_idx"); ?>>업체고유번호</option>
-	<option value="cmm.mb_id"<?php echo get_selected($_GET['sfl'], "cmm.mb_is"); ?>>담당자아이디</option>
-    <option value="com_status"<?php echo get_selected($_GET['sfl'], "com_status"); ?>>상태</option>
+    <option value="cst_president"<?php echo get_selected($_GET['sfl'], "cst_president"); ?>>대표자</option>
+	<option value="cst.cst_idx"<?php echo get_selected($_GET['sfl'], "cst.cst_idx"); ?>>업체고유번호</option>
+	<option value="ctm.mb_id"<?php echo get_selected($_GET['sfl'], "ctm.mb_is"); ?>>담당자아이디</option>
+    <option value="cst_status"<?php echo get_selected($_GET['sfl'], "cst_status"); ?>>상태</option>
 </select>
 <label for="stx" class="sound_only">검색어<strong class="sound_only"> 필수</strong></label>
 <input type="text" name="stx" value="<?php echo $stx ?>" id="stx" class="frm_input">
@@ -154,7 +155,7 @@ $qstr .= $qstr.'&ser_trm_idxs='.$ser_trm_idxs.'&ser_com_type='.$ser_com_type.'&s
 <input type="hidden" name="page" value="<?php echo $page ?>">
 <input type="hidden" name="token" value="">
 <input type="hidden" name="w" value="">
-<input type="hidden" name="ser_com_type" value="<?php echo $ser_com_type; ?>">
+<input type="hidden" name="ser_cst_type" value="<?php echo $ser_cst_type; ?>">
 <input type="hidden" name="ser_trm_idx_salesarea" value="<?php echo $ser_trm_idx_salesarea; ?>">
 
 <div class="tbl_head01 tbl_wrap">
@@ -172,7 +173,7 @@ $qstr .= $qstr.'&ser_trm_idxs='.$ser_trm_idxs.'&ser_com_type='.$ser_com_type.'&s
 		<th scope="col" rowspan="2">업체담당자</th>
 		<th scope="col">iMMS</th>
 		<th scope="col" rowspan="2">iMP</th>
-		<th scope="col"><?php echo subject_sort_link('com_reg_dt','ser_com_type='.$ser_com_type.'&ser_trm_idx_salesarea='.$ser_trm_idx_salesarea) ?>등록일</a></th>
+		<th scope="col"><?php echo subject_sort_link('cst_reg_dt','ser_cst_type='.$ser_cst_type.'&ser_trm_idx_salesarea='.$ser_trm_idx_salesarea) ?>등록일</a></th>
 		<th scope="col" rowspan="2" id="mb_list_mng">수정</th>
 	</tr>
 	<tr class="success">
@@ -181,7 +182,7 @@ $qstr .= $qstr.'&ser_trm_idxs='.$ser_trm_idxs.'&ser_com_type='.$ser_com_type.'&s
 		<th scope="col" style="width:120px;">대표전화</th>
 		<th scope="col" style="width:120px;">팩스</th>
 		<th scope="col">그룹관리</th>
-		<th scope="col"><?php echo subject_sort_link('com_status','ser_com_type='.$ser_com_type.'&ser_trm_idx_salesarea='.$ser_trm_idx_salesarea) ?>상태</a></th>
+		<th scope="col"><?php echo subject_sort_link('cst_status','ser_cst_type='.$ser_cst_type.'&ser_trm_idx_salesarea='.$ser_trm_idx_salesarea) ?>상태</a></th>
 	</tr>
 	</thead>
 	<tbody>
@@ -189,14 +190,14 @@ $qstr .= $qstr.'&ser_trm_idxs='.$ser_trm_idxs.'&ser_com_type='.$ser_com_type.'&s
     for ($i=0; $row=sql_fetch_array($result); $i++) {
         
 		// 메타 분리
-        if($row['com_namagers_info']) {
-            $pieces = explode(',', $row['com_namagers_info']);
+        if($row['cst_namagers_info']) {
+            $pieces = explode(',', $row['cst_namagers_info']);
             for ($j1=0; $j1<sizeof($pieces); $j1++) {
                 $sub_item = explode('^', $pieces[$j1]);
                 for ($j2=0; $j2<sizeof($sub_item); $j2++) {
                     list($key, $value) = explode('=', $sub_item[$j2]);
 //                    echo $key.'='.$value.'<br>';
-                    $row['com_managers'][$j1][$key] = $value;
+                    $row['cst_managers'][$j1][$key] = $value;
                 }
             }
             unset($pieces);unset($sub_item);
@@ -204,20 +205,20 @@ $qstr .= $qstr.'&ser_trm_idxs='.$ser_trm_idxs.'&ser_com_type='.$ser_com_type.'&s
 //		print_r2($row);
         
         // 담당자(들)
-        if( is_array($row['com_managers']) ) {
-            for ($j=0; $j<sizeof($row['com_managers']); $j++) {
+        if( is_array($row['cst_managers']) ) {
+            for ($j=0; $j<sizeof($row['cst_managers']); $j++) {
 //                echo $key.'='.$value.'<br>';
-                $row['com_managers_text'] .= $row['com_managers'][$j]['mb_name'].' '.$g5['set_mb_ranks_value'][$row['com_managers'][$j]['cmm_title']]
-                                                .' <span class="font_size_8">('.$row['com_managers'][$j]['mb_hp'].')</span><br>';
+                $row['cst_managers_text'] .= $row['cst_managers'][$j]['mb_name'].' '.$g5['set_mb_ranks_value'][$row['cst_managers'][$j]['ctm_title']]
+                                                .' <span class="font_size_8">('.$row['cst_managers'][$j]['mb_hp'].')</span><br>';
             }
         }
 
         // 직함까지 다 표현하려면 GROUP_CONCAT로 단순하게 합쳐버리면 안 됨
         $sql1 = "   SELECT mb_id, mb_name, mb_3
                     FROM {$g5['company_saler_table']} AS cms
-                        LEFT JOIN {$g5['member_table']} AS mb ON mb.mb_id = cms.mb_id_saler
-                    WHERE com_idx='".$row['com_idx']."' 
-                        AND cms_status IN ('ok')
+                        LEFT JOIN {$g5['member_table']} AS mb ON mb.mb_id = cts.mb_id_saler
+                    WHERE cst_idx='".$row['cst_idx']."' 
+                        AND cts_status IN ('ok')
                         {$sql_mb_firms}
         ";
         $rs1 = sql_query($sql1,1);
@@ -228,91 +229,91 @@ $qstr .= $qstr.'&ser_trm_idxs='.$ser_trm_idxs.'&ser_com_type='.$ser_com_type.'&s
         
         
         // MMS 카운트
-        $sql3 = " SELECT count(mms_idx) AS mms_count FROM {$g5['mms_table']} WHERE com_idx = '".$row['com_idx']."' AND mms_status NOT IN ('trash','delete') ";
+        $sql3 = " SELECT count(mms_idx) AS mms_count FROM {$g5['mms_table']} WHERE cst_idx = '".$row['cst_idx']."' AND mms_status NOT IN ('trash','delete') ";
         $row['mms'] = sql_fetch($sql3,1);
         $row['mms_count'] = $row['mms']['mms_count'];
         
         // IMP 카운트
-        $sql4 = " SELECT count(imp_idx) AS imp_count FROM {$g5['imp_table']} WHERE com_idx = '".$row['com_idx']."' AND imp_status NOT IN ('trash','delete') ";
+        $sql4 = " SELECT count(imp_idx) AS imp_count FROM {$g5['imp_table']} WHERE cst_idx = '".$row['cst_idx']."' AND imp_status NOT IN ('trash','delete') ";
         $row['imp'] = sql_fetch($sql4,1);
         $row['imp_count'] = $row['imp']['imp_count'];
         
         // 그룹 카운트
-        $sql2 = " SELECT count(mmg_idx) AS mmg_count FROM {$g5['mms_group_table']} WHERE com_idx = '".$row['com_idx']."' AND mmg_status NOT IN ('trash','delete') ";
+        $sql2 = " SELECT count(mmg_idx) AS mmg_count FROM {$g5['mms_group_table']} WHERE cst_idx = '".$row['cst_idx']."' AND mmg_status NOT IN ('trash','delete') ";
         $row['mmg'] = sql_fetch($sql2,1);
         $row['mmg_count'] = $row['mmg']['mmg_count']? '('.$row['mmg']['mmg_count'].')' : '';
         
 		
 		// 수정 및 발송 버튼
 //		if($is_delete) {
-			$s_mod = '<a href="./company_form.php?'.$qstr.'&amp;w=u&amp;com_idx='.$row['com_idx'].'&amp;ser_com_type='.$ser_com_type.'&amp;ser_trm_idx_salesarea='.$ser_trm_idx_salesarea.'">수정</a>';
-			$s_pop = '<a href="javascript:company_popup(\'./company_order_list.popup.php?com_idx='.$row['com_idx'].'\',\''.$row['com_idx'].'\')">보기</a>';
+			$s_mod = '<a href="./company_form.php?'.$qstr.'&amp;w=u&amp;cst_idx='.$row['cst_idx'].'&amp;ser_cst_type='.$ser_cst_type.'&amp;ser_trm_idx_salesarea='.$ser_trm_idx_salesarea.'">수정</a>';
+			$s_pop = '<a href="javascript:company_popup(\'./company_order_list.popup.php?cst_idx='.$row['cst_idx'].'\',\''.$row['cst_idx'].'\')">보기</a>';
 //		}
-		//$s_del = '<a href="./company_form_update.php?'.$qstr.'&amp;w=d&amp;com_idx='.$row['com_idx'].'&amp;ser_com_type='.$ser_com_type.'&amp;ser_trm_idx_salesarea='.$ser_trm_idx_salesarea.'" onclick="return delete_confirm();" style="color:darkorange;">삭제</a>';
+		//$s_del = '<a href="./customer_form_update.php?'.$qstr.'&amp;w=d&amp;cst_idx='.$row['cst_idx'].'&amp;ser_cst_type='.$ser_cst_type.'&amp;ser_trm_idx_salesarea='.$ser_trm_idx_salesarea.'" onclick="return delete_confirm();" style="color:darkorange;">삭제</a>';
         
         // default company class name
-        $row['default_com_class'] = ($_SESSION['ss_com_idx']==$row['com_idx']&&$member['mb_manager_yn']) ? 'b_default_company' : '';
+        $row['default_cst_class'] = ($_SESSION['ss_cst_idx']==$row['cst_idx']&&$member['mb_manager_yn']) ? 'b_default_company' : '';
         
  
 		// 삭제인 경우 그레이 표현
-		if($row['com_status'] == 'trash')
-			$row['com_status_trash_class']	= " tr_trash";
+		if($row['cst_status'] == 'trash')
+			$row['cst_status_trash_class']	= " tr_trash";
 
         $bg = 'bg'.($i%2);
     ?>
 
-	<tr class="<?php echo $bg; ?> <?=$row['com_status_trash_class']?>" tr_id="<?php echo $row['com_idx'] ?>">
+	<tr class="<?php echo $bg; ?> <?=$row['cst_status_trash_class']?>" tr_id="<?php echo $row['cst_idx'] ?>">
 		<td class="td_chk" rowspan="2">
-			<input type="hidden" name="com_idx[<?php echo $i ?>]" value="<?php echo $row['com_idx'] ?>" id="com_idx_<?php echo $i ?>">
-			<label for="chk_<?php echo $i; ?>" class="sound_only"><?php echo get_text($row['com_name']); ?></label>
+			<input type="hidden" name="cst_idx[<?php echo $i ?>]" value="<?php echo $row['cst_idx'] ?>" id="cst_idx_<?php echo $i ?>">
+			<label for="chk_<?php echo $i; ?>" class="sound_only"><?php echo get_text($row['cst_name']); ?></label>
 			<input type="checkbox" name="chk[]" value="<?php echo $i ?>" id="chk_<?php echo $i ?>">
 		</td>
-		<td class="td_com_name td_left" colspan="2"><!-- 업체명 -->
-			<b class="<?=$row['default_com_class']?>"><?php echo get_text($row['com_name']); ?></b>
-			<a style="display:none;" href="javascript:company_popup('./company_order_list.popup.php?com_idx=<?php echo $row['com_idx'];?>','<?php echo $row['com_idx'];?>')" style="float:right;"><i class="fa fa-window-restore"></i></a>
+		<td class="td_cst_name td_left" colspan="2"><!-- 업체명 -->
+			<b class="<?=$row['default_cst_class']?>"><?php echo get_text($row['cst_name']); ?></b>
+			<a style="display:none;" href="javascript:customer_popup('./customer_order_list.popup.php?cst_idx=<?php echo $row['cst_idx'];?>','<?php echo $row['cst_idx'];?>')" style="float:right;"><i class="fa fa-window-restore"></i></a>
 		</td>
-		<td class="td_com_president"><!-- 대표자명 -->
-			<?php echo get_text($row['com_president']); ?>
+		<td class="td_cst_president"><!-- 대표자명 -->
+			<?php echo get_text($row['cst_president']); ?>
 		</td>
-		<td class="td_com_email font_size_8"><!-- 이메일 -->
-			<?php echo cut_str($row['com_email'],21,'..'); ?>
+		<td class="td_cst_email font_size_8"><!-- 이메일 -->
+			<?php echo cut_str($row['cst_email'],21,'..'); ?>
 		</td>
-		<td class="td_com_manager td_left" rowspan="2"><!-- 담당자 -->
-			<?php echo $row['com_managers_text']; ?>
-            <div style="display:<?=($is_admin=='super')?:'no ne'?>"><a href="javascript:" com_idx="<?=$row['com_idx']?>" class="btn_manager"><i class="fa fa-edit"></i></a></div>
+		<td class="td_cst_manager td_left" rowspan="2"><!-- 담당자 -->
+			<?php echo $row['cst_managers_text']; ?>
+            <div style="display:<?=($is_admin=='super')?:'no ne'?>"><a href="javascript:" cst_idx="<?=$row['cst_idx']?>" class="btn_manager"><i class="fa fa-edit"></i></a></div>
 		</td>
-		<td class="td_com_mms"><!-- MMS -->
-            <a href="./mms_list.php?sfl=mms.com_idx&stx=<?=$row['com_idx']?>"><?=number_format($row['mms_count'])?></a>
+		<td class="td_cst_mms"><!-- MMS -->
+            <a href="./mms_list.php?sfl=mms.cst_idx&stx=<?=$row['cst_idx']?>"><?=number_format($row['mms_count'])?></a>
 		</td>
-		<td class="td_com_imp" rowspan="2"><!-- IMP -->
-            <a href="./imp_list.php?sfl=imp.com_idx&stx=<?=$row['com_idx']?>"><?=number_format($row['imp_count'])?></a>
+		<td class="td_cst_imp" rowspan="2"><!-- IMP -->
+            <a href="./imp_list.php?sfl=imp.cst_idx&stx=<?=$row['cst_idx']?>"><?=number_format($row['imp_count'])?></a>
 		</td>
-		<td class="td_com_reg_dt td_center font_size_8"><!-- 등록일 -->
-			<?php echo substr($row['com_reg_dt'],0,10) ?>
+		<td class="td_cst_reg_dt td_center font_size_8"><!-- 등록일 -->
+			<?php echo substr($row['cst_reg_dt'],0,10) ?>
 		</td>
 		<td class="td_mngsmall" rowspan="2">
 			<?php echo $s_mod ?><br><?//php echo $s_pop ?>
 		</td>
 	</tr>
-	<tr class="<?php echo $bg; ?> <?=$row['com_status_trash_class']?>" tr_id="<?php echo $row['com_idx'] ?>">
-		<td class="td_com_type td_left font_size_8"><!-- 업종 -->
-			<?php echo $g5['set_com_type_value'][$row['com_type']] ?>
+	<tr class="<?php echo $bg; ?> <?=$row['cst_status_trash_class']?>" tr_id="<?php echo $row['cst_idx'] ?>">
+		<td class="td_cst_type td_left font_size_8"><!-- 업종 -->
+			<?php echo $g5['set_cst_type_value'][$row['cst_type']] ?>
 		</td>
-		<td class="td_com_idx td_left font_size_8"><!-- 번호 -->
-			<?php echo $row['com_idx'] ?>
+		<td class="td_cst_idx td_left font_size_8"><!-- 번호 -->
+			<?php echo $row['cst_idx'] ?>
 		</td>
-		<td class="td_com_tel"><!-- 대표전화 -->
-			<span class="font_size_8"><?php echo $row['com_tel']; ?></span>
+		<td class="td_cst_tel"><!-- 대표전화 -->
+			<span class="font_size_8"><?php echo $row['cst_tel']; ?></span>
 		</td>
-		<td class="td_com_fax"><!-- 팩스 -->
-			<span class="font_size_8"><?php echo $row['com_fax']; ?></span>
+		<td class="td_cst_fax"><!-- 팩스 -->
+			<span class="font_size_8"><?php echo $row['cst_fax']; ?></span>
 		</td>
 		<td class="td_mmg font_size_8"><!-- 그룹관리 -->
-            <a href="./mms_group_list.php?com_idx=<?=$row['com_idx']?>">그룹</a>
+            <a href="./mms_group_list.php?cst_idx=<?=$row['cst_idx']?>">그룹</a>
 			<?php echo $row['mmg_count']; ?>
 		</td>
-		<td headers="list_com_status" class="td_com_status"><!-- 상태 -->
-			<?php echo $g5['set_com_status_value'][$row['com_status']] ?>
+		<td headers="list_cst_status" class="td_cst_status"><!-- 상태 -->
+			<?php echo $g5['set_cst_status_value'][$row['cst_status']] ?>
 		</td>
 	</tr>
 	<?php
@@ -338,7 +339,7 @@ $qstr .= $qstr.'&ser_trm_idxs='.$ser_trm_idxs.'&ser_com_type='.$ser_com_type.'&s
 
 </form>
 
-<?php echo get_paging(G5_IS_MOBILE ? $config['cf_mobile_pages'] : $config['cf_write_pages'], $page, $total_page, '?'.$qstr.'&amp;ser_com_type='.$ser_com_type.'&amp;page='); ?>
+<?php echo get_paging(G5_IS_MOBILE ? $config['cf_mobile_pages'] : $config['cf_write_pages'], $page, $total_page, '?'.$qstr.'&amp;ser_cst_type='.$ser_cst_type.'&amp;page='); ?>
 
 <script>
 $(function(e) {
@@ -361,7 +362,7 @@ $(function(e) {
 
     // 담당자 클릭
     $(".btn_manager").click(function(e) {
-        var href = "./company_member_list.php?com_idx="+$(this).attr('com_idx');
+        var href = "./customer_member_list.php?cst_idx="+$(this).attr('cst_idx');
         winCompanyMember = window.open(href, "winCompanyMember", "left=100,top=100,width=520,height=600,scrollbars=1");
         winCompanyMember.focus();
         return false;

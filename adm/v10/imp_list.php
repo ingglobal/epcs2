@@ -113,7 +113,7 @@ $items = array(
 </form>
 
 <div class="local_desc01 local_desc" style="display:no ne;">
-    <p>iMP는 설비(iMMS)를 최대 <?=$g5['setting']['set_imp_count']?>개 단위로 묶어서 관리합니다. 장비와 1:1 관계가 아닙니다.</p>
+    <p>iMP는 설비(iMMS)를 최대 <?=$g5['com_setting']['set_imp_count']?>개 단위로 묶어서 관리합니다. 장비와 1:1 관계가 아닙니다.</p>
 </div>
 
 <form name="form01" id="form01" action="./imp_list_update.php" onsubmit="return form01_submit(this);" method="post">

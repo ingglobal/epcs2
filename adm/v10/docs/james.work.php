@@ -922,31 +922,31 @@ GROUP BY machine_id
 SELECT * FROM `g5_5_meta` WHERE `mta_db_id` LIKE '58' ORDER BY `mta_key` ASC
 
 
-INSERT INTO `g5_5_meta` (`mta_idx`, `mta_country`, `mta_db_table`, `mta_db_id`, `mta_key`, `mta_value`, `mta_reg_dt`) VALUES
+INSERT INTO `g5_5_meta` (`mta_idx`, `com_idx`, `mta_db_table`, `mta_db_id`, `mta_key`, `mta_value`, `mta_reg_dt`) VALUES
   (NULL, '', 'mms', '58', 'dta_type_label-13-5', '구배 압력 P0S 0 SV  SETTING', '2022-07-01 18:45:47');
-INSERT INTO `g5_5_meta` (`mta_idx`, `mta_country`, `mta_db_table`, `mta_db_id`, `mta_key`, `mta_value`, `mta_reg_dt`) VALUES
+INSERT INTO `g5_5_meta` (`mta_idx`, `com_idx`, `mta_db_table`, `mta_db_id`, `mta_key`, `mta_value`, `mta_reg_dt`) VALUES
   (NULL, '', 'mms', '58', 'dta_type_label-13-6', '구배 압력 P0S 1 SV  SETTING', '2022-07-01 18:45:47');
-INSERT INTO `g5_5_meta` (`mta_idx`, `mta_country`, `mta_db_table`, `mta_db_id`, `mta_key`, `mta_value`, `mta_reg_dt`) VALUES
+INSERT INTO `g5_5_meta` (`mta_idx`, `com_idx`, `mta_db_table`, `mta_db_id`, `mta_key`, `mta_value`, `mta_reg_dt`) VALUES
   (NULL, '', 'mms', '58', 'dta_type_label-13-7', '구배 압력 P0S 2 SV  SETTING', '2022-07-01 18:45:47');
-INSERT INTO `g5_5_meta` (`mta_idx`, `mta_country`, `mta_db_table`, `mta_db_id`, `mta_key`, `mta_value`, `mta_reg_dt`) VALUES
+INSERT INTO `g5_5_meta` (`mta_idx`, `com_idx`, `mta_db_table`, `mta_db_id`, `mta_key`, `mta_value`, `mta_reg_dt`) VALUES
   (NULL, '', 'mms', '58', 'dta_type_label-13-8', '구배 압력 P0S 3 SV  SETTING', '2022-07-01 18:45:47');
-INSERT INTO `g5_5_meta` (`mta_idx`, `mta_country`, `mta_db_table`, `mta_db_id`, `mta_key`, `mta_value`, `mta_reg_dt`) VALUES
+INSERT INTO `g5_5_meta` (`mta_idx`, `com_idx`, `mta_db_table`, `mta_db_id`, `mta_key`, `mta_value`, `mta_reg_dt`) VALUES
   (NULL, '', 'mms', '58', 'dta_type_label-13-9', '구배 압력 P0S 4 SV  SETTING', '2022-07-01 18:45:47');
 ...
-INSERT INTO `g5_5_meta` (`mta_idx`, `mta_country`, `mta_db_table`, `mta_db_id`, `mta_key`, `mta_value`, `mta_reg_dt`) VALUES
+INSERT INTO `g5_5_meta` (`mta_idx`, `com_idx`, `mta_db_table`, `mta_db_id`, `mta_key`, `mta_value`, `mta_reg_dt`) VALUES
   (NULL, '', 'mms', '58', 'dta_type_label-13-10', '구배 시간 P0S 0 SV  SETTING', '2022-07-01 18:45:47');
-INSERT INTO `g5_5_meta` (`mta_idx`, `mta_country`, `mta_db_table`, `mta_db_id`, `mta_key`, `mta_value`, `mta_reg_dt`) VALUES
+INSERT INTO `g5_5_meta` (`mta_idx`, `com_idx`, `mta_db_table`, `mta_db_id`, `mta_key`, `mta_value`, `mta_reg_dt`) VALUES
   (NULL, '', 'mms', '58', 'dta_type_label-13-11', '구배 시간 P0S 1 SV  SETTING', '2022-07-01 18:45:47');
-INSERT INTO `g5_5_meta` (`mta_idx`, `mta_country`, `mta_db_table`, `mta_db_id`, `mta_key`, `mta_value`, `mta_reg_dt`) VALUES
+INSERT INTO `g5_5_meta` (`mta_idx`, `com_idx`, `mta_db_table`, `mta_db_id`, `mta_key`, `mta_value`, `mta_reg_dt`) VALUES
   (NULL, '', 'mms', '58', 'dta_type_label-13-12', '구배 시간 P0S 2 SV  SETTING', '2022-07-01 18:45:47');
-INSERT INTO `g5_5_meta` (`mta_idx`, `mta_country`, `mta_db_table`, `mta_db_id`, `mta_key`, `mta_value`, `mta_reg_dt`) VALUES
+INSERT INTO `g5_5_meta` (`mta_idx`, `com_idx`, `mta_db_table`, `mta_db_id`, `mta_key`, `mta_value`, `mta_reg_dt`) VALUES
   (NULL, '', 'mms', '58', 'dta_type_label-13-13', '구배 시간 P0S 3 SV  SETTING', '2022-07-01 18:45:47');
-INSERT INTO `g5_5_meta` (`mta_idx`, `mta_country`, `mta_db_table`, `mta_db_id`, `mta_key`, `mta_value`, `mta_reg_dt`) VALUES
+INSERT INTO `g5_5_meta` (`mta_idx`, `com_idx`, `mta_db_table`, `mta_db_id`, `mta_key`, `mta_value`, `mta_reg_dt`) VALUES
   (NULL, '', 'mms', '58', 'dta_type_label-13-14', '구배 시간 P0S 4 SV  SETTING', '2022-07-01 18:45:47');
 ...
-INSERT INTO `g5_5_meta` (`mta_idx`, `mta_country`, `mta_db_table`, `mta_db_id`, `mta_key`, `mta_value`, `mta_reg_dt`) VALUES
+INSERT INTO `g5_5_meta` (`mta_idx`, `com_idx`, `mta_db_table`, `mta_db_id`, `mta_key`, `mta_value`, `mta_reg_dt`) VALUES
   (NULL, '', 'mms', '58', 'dta_type_label-13-15', '목표 압력 (구배+증분xShot=작업영역)', '2022-07-01 18:45:47');
-INSERT INTO `g5_5_meta` (`mta_idx`, `mta_country`, `mta_db_table`, `mta_db_id`, `mta_key`, `mta_value`, `mta_reg_dt`) VALUES
+INSERT INTO `g5_5_meta` (`mta_idx`, `com_idx`, `mta_db_table`, `mta_db_id`, `mta_key`, `mta_value`, `mta_reg_dt`) VALUES
   (NULL, '', 'mms', '58', 'dta_type_label-13-16', '조작압력 MV', '2022-07-01 18:45:47');
 .............
 .............

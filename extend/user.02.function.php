@@ -791,10 +791,10 @@ function meta_update($meta_array)
 	if(!$meta_array['mta_key'])
 		return 0;
 
-	$mta_country = ($meta_array['mta_country'])? $meta_array['mta_country']:$g5['setting']['set_default_country'];
+	$com_idx = ($meta_array['com_idx'])? $meta_array['com_idx']:0;
 
 	$row1 = sql_fetch("	SELECT * FROM {$g5['meta_table']} 
-							WHERE mta_country = '$mta_country' 
+							WHERE com_idx = '$com_idx' 
 								AND mta_db_table='{$meta_array['mta_db_table']}' 
 								AND mta_db_id='{$meta_array['mta_db_id']}' 
 								AND mta_key='{$meta_array['mta_key']}' ");
@@ -806,7 +806,7 @@ function meta_update($meta_array)
 	}
 	else {
 		$sql = " INSERT INTO {$g5['meta_table']} SET 
-					mta_country = '$mta_country', 
+					com_idx = '$com_idx', 
 					mta_db_table='{$meta_array['mta_db_table']}', 
 					mta_db_id='{$meta_array['mta_db_id']}', 
 					mta_key='{$meta_array['mta_key']}', 
@@ -817,17 +817,17 @@ function meta_update($meta_array)
 }
 }
 
-
 //--- 환경설정 변수 저장 ---//
 if(!function_exists('setting_update')){
 function setting_update($set_array)
 {
 	global $g5,$config;
-
-	$com_idx = ($set_array['com_idx'])? $set_array['com_idx']:$g5['setting']['set_default_country'];
+	
+	$com_idx = ($set_array['com_idx'])? $set_array['com_idx']:0;
 	$set_key = ($set_array['set_key']) ? $set_array['set_key']:'site';
 	$set_auto_yn = ($set_array['set_auto_yn'])? 1:0;
 
+	
 	$row1 = sql_fetch(" SELECT * FROM {$g5['setting_table']} 
 						WHERE set_name='{$set_array['set_name']}' 
 							AND com_idx='$com_idx' 

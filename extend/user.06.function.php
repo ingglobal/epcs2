@@ -382,7 +382,7 @@ function send_push($arr) {
             "en" => $arr["msg_body"]
         );
         $fields = array(
-            'app_id' => $g5['setting']['set_onesignal_id'],
+            'app_id' => $g5['com_setting']['set_onesignal_id'],
             'include_player_ids' => array($arr['push_key']),
             'data' => array(
                 "url" => $arr['push_url']
@@ -396,7 +396,7 @@ function send_push($arr) {
         curl_setopt($ch, CURLOPT_URL, "https://onesignal.com/api/v1/notifications");
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
             'Content-Type: application/json; charset=utf-8',
-            'Authorization: Basic '.$g5['setting']['set_onesignal_key']
+            'Authorization: Basic '.$g5['com_setting']['set_onesignal_key']
         ));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
         curl_setopt($ch, CURLOPT_HEADER, FALSE);
@@ -573,7 +573,7 @@ function send_message($arr)
     }
 
     // 발신자번호
-    $send_number = preg_replace("/[^0-9]/", "", $g5['setting']['set_from_number']);
+    $send_number = preg_replace("/[^0-9]/", "", $g5['com_setting']['set_from_number']);
 
     // 발송자 정보 추출
     $infos = json_decode($arr['reports'], true);

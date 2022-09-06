@@ -1,5 +1,5 @@
 <?php
-$sub_menu = "910110";
+$sub_menu = "910130";
 include_once('./_common.php');
 
 auth_check($auth[$sub_menu], 'w');
@@ -20,7 +20,7 @@ foreach($_REQUEST as $key => $value ) {
 	if(!in_array($key,$db_fields) && substr($key,0,3)==$db_prefix && gettype($value) != 'array') {
 		// echo $key."=".$_REQUEST[$key]."<br>";
 		setting_update(array(
-			"com_idx"=>0,
+			"com_idx"=>$com_idx,
 			"set_key"=>"site",	// key 값을 별도로 주면 환경설정값 그룹으로 분리됩니다.
 			"set_name"=>$key,
 			"set_value"=>$value,

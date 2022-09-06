@@ -79,10 +79,10 @@ for ($i = 1; $i <= $data->sheets[0]['numRows']; $i++) {
 //		echo " INSERT INTO jt_term_relation SET trm_idx = '".$item[$i][9]."', tmr_db_id = '".$item[$i][3]."', tmr_db_table = 'member', tmr_db_key = 'department', tmr_reg_dt = now() ".'<br>';
 		
 		// 메타 정보 입력
-		sql_query(" INSERT INTO jt_meta SET mta_db_id = '".$item[$i][3]."', mta_key = 'mb_enter_date', mta_value = '2016-05-30', mta_country = 'ko_KR', mta_db_table = 'member', mta_reg_dt = now() ");	//
-//		echo " INSERT INTO jt_meta SET mta_db_id = '".$item[$i][3]."', mta_value = '2016-05-30', mta_country = 'ko_KR', mta_db_table = 'member', mta_db_key = 'mb_enter_date', mta_reg_dt = now() ".'<br>';
-		sql_query(" INSERT INTO jt_meta SET mta_db_id = '".$item[$i][3]."', mta_key = 'mb_position', mta_value = '".$item[$i][11]."', mta_country = 'ko_KR', mta_db_table = 'member', mta_reg_dt = now() ");	//
-//		echo " INSERT INTO jt_meta SET mta_db_id = '".$item[$i][3]."', mta_key = 'mb_position', mta_value = '".$item[$i][11]."', mta_country = 'ko_KR', mta_db_table = 'member', mta_reg_dt = now() ".'<br>';
+		sql_query(" INSERT INTO jt_meta SET mta_db_id = '".$item[$i][3]."', mta_key = 'mb_enter_date', mta_value = '2016-05-30', com_idx = 'ko_KR', mta_db_table = 'member', mta_reg_dt = now() ");	//
+//		echo " INSERT INTO jt_meta SET mta_db_id = '".$item[$i][3]."', mta_value = '2016-05-30', com_idx = 'ko_KR', mta_db_table = 'member', mta_db_key = 'mb_enter_date', mta_reg_dt = now() ".'<br>';
+		sql_query(" INSERT INTO jt_meta SET mta_db_id = '".$item[$i][3]."', mta_key = 'mb_position', mta_value = '".$item[$i][11]."', com_idx = 'ko_KR', mta_db_table = 'member', mta_reg_dt = now() ");	//
+//		echo " INSERT INTO jt_meta SET mta_db_id = '".$item[$i][3]."', mta_key = 'mb_position', mta_value = '".$item[$i][11]."', com_idx = 'ko_KR', mta_db_table = 'member', mta_reg_dt = now() ".'<br>';
 		
 		// 메뉴권한
 		$emp_auth[$i] = ($item[$i][11] >= 6) ? 'r,w,d' : 'w,d'; // 사원관리 권한
