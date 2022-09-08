@@ -12,7 +12,7 @@ if($_SESSION['ss_com_idx']&&$is_admin=='super') {
     $com_name = $com['com_name'] ? ' ('.$com['com_name'].')' : '';
 }
 
-$g5['title'] = '업체관리'.$com_name;
+$g5['title'] = '업체정보관리';
 // @include_once('./_top_menu_company.php');
 include_once('./_head.php');
 echo $g5['container_sub_title'];

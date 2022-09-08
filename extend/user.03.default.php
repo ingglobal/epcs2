@@ -278,6 +278,8 @@ if(defined('G5_IS_ADMIN')){
 		echo 'var mb_level = "'.$member['mb_level'].'";'.PHP_EOL;
 		echo 'var g5_community_use = "'.G5_COMMUNITY_USE.'";'.PHP_EOL;
 		echo 'var g5_user_admin_url = "'.G5_USER_ADMIN_URL.'";'.PHP_EOL;
+		echo 'var g5_user_admin_comdata_url = "'.G5_USER_ADMIN_COMDATA_URL.'";'.PHP_EOL;
+		echo 'var g5_user_admin_comdata_com_url = "'.G5_USER_ADMIN_COMDATA_URL.'/'.$g5['com_setting']['set_com_directory_name'].'";'.PHP_EOL;
 		echo 'var g5_user_admin_ajax_url = "'.G5_USER_ADMIN_AJAX_URL.'";'.PHP_EOL;
 		echo 'var g5_user_admin_mobile_url = "'.G5_USER_ADMIN_MOBILE_URL.'";'.PHP_EOL;
 		echo 'var g5_print_version = "'.$print_version.'";'.PHP_EOL;

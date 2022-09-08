@@ -13,6 +13,7 @@ $(function(){
     
     if(Number(mb_level) == 10){
         $('<span id="logo_company_name">'+cf_company_title+'</span>').appendTo('#logo');
+        $('<li class="tnb_li"><a href="'+g5_user_admin_comdata_com_url+'" class="tnb_com_data">데이터등록</a></li>').prependTo($('#tnb > ul'));
         $('<li class="tnb_li"><a href="javascript:" class="tnb_com_select">디폴트업체</a></li>').prependTo($('#tnb > ul'));
 
         $('.tnb_com_select').on('click',function(){

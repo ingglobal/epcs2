@@ -142,6 +142,9 @@ input::-o-input-placeholder,textarea::-o-input-placeholder{color:#bbbbbb;}
 #gnb .on .btn_op.menu-965{background:url(../img/menu-960.png) 50% 50% no-repeat #162037}
 #gnb .gnb_li .btn_op.menu-990{background:url(../img/menu-960-1.png) 50% 50% no-repeat #040816 }
 #gnb .on .btn_op.menu-990{background:url(../img/menu-960.png) 50% 50% no-repeat #162037}
+#gnb .gnb_li .btn_op.menu-990{background:url(../svg/data-cluster_21_cc5b95.svg) 50% 50% no-repeat #040816 }
+#gnb .on .btn_op.menu-990{background:url(../svg/data-cluster_21_f08abe.svg) 50% 50% no-repeat #162037}
+
 
 #gnb .gnb_li {border-bottom:none;}
 #gnb .gnb_li button:hover {background-color: #030c1d;}
@@ -234,7 +237,8 @@ a.btn_cancel{background:#43535C;border:1px solid #434343;}
 .new_win .win_btn button{background:#D33838;color:#fff;}
 .btn_list03 a {height:30px;line-height:30px;}
 #tnb li{margin-left:5px;}
-.tnb_com_select{border:1px solid #354667;}
+.tnb_com_select{border:1px solid #563557;background-color:#563557;}
+.tnb_com_data{border:1px solid #354667;background-color:#354667;}
 .tnb_mes{border:1px solid #354667;}
 
 ul#bwgs_tab{border-bottom:1px solid #777;}

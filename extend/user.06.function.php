@@ -1655,6 +1655,87 @@ function dash_delete(){
 }
 }
 
+// ING고객업체&=고객 업데이트
+if(!function_exists('company_member_update')){
+function company_member_update($arr)
+{
+    global $g5,$member;
+
+    if(!$arr['mb_id_saler'] || !$arr['com_idx'])
+        return false;
+
+    $mb1 = sql_fetch("SELECT mb_2 FROM {$g5['member_table']} WHERE mb_id = '".$arr['mb_id_saler']."' ");
+
+    $row1 = sql_fetch(" SELECT * FROM {$g5['company_member_table']} WHERE mb_id_saler='{$arr['mb_id_saler']}'
+                                                            AND com_idx='{$arr['com_idx']}' ");
+
+    $sql_common = " mb_id_saler = '{$arr['mb_id_saler']}'
+                    , com_idx = '{$arr['com_idx']}'
+                    , trm_idx_department = '".$mb1['mb_2']."'
+                    , cmm_memo = '{$arr['cmm_memo']}'
+                    , cmm_status = '{$arr['cmm_status']}'
+                    , cmm_update_dt = '".G5_TIME_YMDHIS."'
+    ";
+
+    // 있으면 UPDATE
+    if($row1['cmm_idx']) {
+        $sql = " UPDATE {$g5['company_member_table']} SET {$sql_common} WHERE cmm_idx='".$row1['cmm_idx']."' ";
+        sql_query($sql,1);
+//		echo $sql.'<br>';
+    }
+    // 없으면 INSERT
+    else {
+        $sql = " INSERT INTO {$g5['company_member_table']} SET cmm_reg_dt='".G5_TIME_YMDHIS."', {$sql_common} ";
+        sql_query($sql,1);
+//		echo $sql.'<br>';
+        $row1['cmm_idx'] = sql_insert_id();
+    }
+
+    return $row1['cmm_idx'];
+}
+}
+
+// 해당업체의 고객업체&=고객 업데이트
+if(!function_exists('customer_member_update')){
+function customer_member_update($arr)
+{
+    global $g5,$member;
+
+    if(!$arr['mb_id_saler'] || !$arr['cst_idx'])
+        return false;
+
+    $mb1 = sql_fetch("SELECT mb_2 FROM {$g5['member_table']} WHERE mb_id = '".$arr['mb_id_saler']."' ");
+
+    $row1 = sql_fetch(" SELECT * FROM {$g5['customer_member_table']} WHERE mb_id_saler='{$arr['mb_id_saler']}'
+                                                            AND cst_idx='{$arr['cst_idx']}' ");
+
+    $sql_common = " mb_id_saler = '{$arr['mb_id_saler']}'
+                    , cst_idx = '{$arr['cst_idx']}'
+                    , trm_idx_department = '".$mb1['mb_2']."'
+                    , ctm_memo = '{$arr['ctm_memo']}'
+                    , ctm_status = '{$arr['ctm_status']}'
+                    , ctm_update_dt = '".G5_TIME_YMDHIS."'
+    ";
+
+    // 있으면 UPDATE
+    if($row1['ctm_idx']) {
+        $sql = " UPDATE {$g5['customer_member_table']} SET {$sql_common} WHERE ctm_idx='".$row1['ctm_idx']."' ";
+        sql_query($sql,1);
+//		echo $sql.'<br>';
+    }
+    // 없으면 INSERT
+    else {
+        $sql = " INSERT INTO {$g5['customer_member_table']} SET ctm_reg_dt='".G5_TIME_YMDHIS."', {$sql_common} ";
+        sql_query($sql,1);
+//		echo $sql.'<br>';
+        $row1['ctm_idx'] = sql_insert_id();
+    }
+
+    return $row1['ctm_idx'];
+}
+}
+
+
 if(!function_exists('dash_test')){
 function dash_test(){
     return 'dash_test';

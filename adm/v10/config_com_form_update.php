@@ -47,5 +47,5 @@ if($sql_defaults[0]) {
 
 
 // exit;
-goto_url('./config_form.php?'.$qstr, false);
+goto_url('./config_com_form.php?'.$qstr, false);
 ?>

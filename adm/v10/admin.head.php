@@ -118,7 +118,6 @@ function imageview(id, w, h)
 
         <div id="tnb">
             <ul>
-                <li class="tnb_li"><a href="http://61.83.89.58/hanjoo/" class="tnb_mes" target="_blank">MES</a></li>
                 <li class="tnb_li"><a href="<?php echo G5_SHOP_URL ?>/" class="tnb_shop" target="_blank" title="쇼핑몰 바로가기">쇼핑몰 바로가기</a></li>
                 <li class="tnb_li"><a href="<?php echo G5_URL ?>/" class="tnb_community" target="_blank" title="커뮤니티 바로가기">커뮤니티 바로가기</a></li>
                 <li class="tnb_li"><a href="<?php echo G5_ADMIN_URL ?>/service.php" class="tnb_service">부가서비스</a></li>

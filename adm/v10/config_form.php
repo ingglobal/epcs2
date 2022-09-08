@@ -219,7 +219,8 @@ yearly,1,10 = 연도별,1년단위,10년치,sum(합계)'); ?>
             <th scope="row">디폴트업체번호</th>
             <td>
 				<?php echo help('수퍼관리자가 로그인할 때 디폴트 업체 번호입니다. (com_idx)'); ?>
-                <input type="text" name="set_com_idx" value="<?php echo $g5['setting']['set_com_idx']; ?>" class="frm_input" style="width:40px;">
+				<?php echo help('디폴트업체를 변경할때마다 자동으로 업데이트된다.'); ?>
+                <input type="text" readonly name="set_com_idx" value="<?php echo $g5['setting']['set_com_idx']; ?>" class="frm_input readonly" style="width:40px;">
             </td>
         </tr>
 		<tr>

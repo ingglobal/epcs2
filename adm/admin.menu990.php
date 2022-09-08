@@ -1,6 +1,6 @@
 <?php
-$comdata_path = G5_USER_ADMIN_COMDATA_PATH.'/'.$g5['setting']['set_com_directory_name'];
-$comdata_url = G5_USER_ADMIN_COMDATA_URL.'/'.$g5['setting']['set_com_directory_name'];
+$comdata_path = G5_USER_ADMIN_COMDATA_PATH.'/'.$g5['com_setting']['set_com_directory_name'];
+$comdata_url = G5_USER_ADMIN_COMDATA_URL.'/'.$g5['com_setting']['set_com_directory_name'];
 $comdata_arr = array(
     '990100' => array('업체등록','insert_company')
     ,'990110' => array('제품등록','insert_bom')
