@@ -18,7 +18,7 @@ for ($i=0;$i<sizeof($checkbox_array);$i++) {
 	if(!$_REQUEST[$checkbox_array[$i]])
 		$_REQUEST[$checkbox_array[$i]] = 'N';
 }
-
+/*
 $sql_common = "  com_idx = '{$_POST['com_idx']}'
                 , mms_idx2 = '{$_POST['mms_idx2']}'
                 , imp_idx = '{$_POST['imp_idx']}'
@@ -29,6 +29,25 @@ $sql_common = "  com_idx = '{$_POST['com_idx']}'
                 , mms_price = '{$mms_price}'
                 , mms_install_date = '{$_POST['mms_install_date']}'
                 , mms_set_output = '{$_POST['mms_set_output']}'
+                , mms_set_error = '{$_POST['mms_set_error']}'
+                , mms_data_url_host = '{$_POST['mms_data_url_host']}'
+                , mms_linecode = '{$_POST['mms_linecode']}'
+                , mms_output_yn = '{$_POST['mms_output_yn']}'
+                , mms_default_yn = '{$_POST['mms_default_yn']}'
+                , mms_sort = '{$_POST['mms_sort']}'
+                , mms_memo = '{$_POST['mms_memo']}'
+                , mms_status = '{$_POST['mms_status']}'
+";
+*/
+$sql_common = "  com_idx = '{$_POST['com_idx']}'
+                , mms_idx2 = '{$_POST['mms_idx2']}'
+                , imp_idx = '{$_POST['imp_idx']}'
+                , mmg_idx = '{$_POST['mmg_idx']}'
+                , trm_idx_category = '{$_POST['trm_idx_category']}'
+                , mms_name = '{$_POST['mms_name']}'
+                , mms_model = '{$_POST['mms_model']}'
+                , mms_price = '{$mms_price}'
+                , mms_install_date = '{$_POST['mms_install_date']}'
                 , mms_set_error = '{$_POST['mms_set_error']}'
                 , mms_data_url_host = '{$_POST['mms_data_url_host']}'
                 , mms_linecode = '{$_POST['mms_linecode']}'
@@ -182,7 +201,7 @@ for($i=0; $row=sql_fetch_array($result); $i++) {
     $list[$row['mms_idx']]['com_idx'] = $row['com_idx'];
     $list[$row['mms_idx']]['mmg_idx'] = $row['mmg_idx'];
     $list[$row['mms_idx']]['mms_name'] = $row['mms_name'];
-    $list[$row['mms_idx']]['output'] = $row['mms_set_output'];
+    // $list[$row['mms_idx']]['output'] = $row['mms_set_output'];
     $list[$row['mms_idx']]['imp_idx'] = $row['imp_idx'];
     $list[$row['mms_idx']]['trm_idx_category'] = $row['trm_idx_category'];
     $list[$row['mms_idx']]['mms_data_url_host'] = $row['mms_data_url_host'];

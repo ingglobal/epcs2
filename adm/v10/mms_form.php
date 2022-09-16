@@ -196,16 +196,8 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 	</tr>
 	<tr>
 		<th scope="row">제원(규격)</th>
-		<td>
+		<td colspan="3">
 			<input type="text" name="mms_size" value="<?php echo $mms['mms_size'] ?>" id="mms_size" class="frm_input">
-		</td>
-		<th scope="row">생산통계기준</th>
-		<td>
-			<select name="mms_set_output" id="mms_set_output">
-                <option value="">생산통계기준을 선택하세요.</option>
-                <?=$g5['set_mms_set_data_options']?>
-			</select>
-			<script>$('select[name="mms_set_output"]').val('<?=$mms['mms_set_output']?>');</script>
 		</td>
 	</tr>
 	<tr>

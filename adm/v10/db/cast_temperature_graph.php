@@ -257,7 +257,7 @@ $com = get_table_meta('company','com_idx',$mms['com_idx']);
 
 <script>
 var graphs2 = [], seriesOptions = [], data_series = [], graph_type = 'spline', graph_line = 'solid',
-    mms_set_output = '<?=$mms['mms_set_output']?>',
+    mms_set_output = '<?=$g5['com_setting']['set_prod_stats_standard']?>',
     seriesCounter = 0, chart, options;
 
 // ======================================================================

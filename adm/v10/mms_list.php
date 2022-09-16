@@ -82,7 +82,7 @@ $items1 = array(
     ,"mms_parts"=>array("부속품수",0,0,0)
     ,"mms_maintain"=>array("정비횟수",0,0,0)
     ,"mms_graph_tag"=>array("태그수",0,0,0)
-    ,"mms_idx"=>array("DB고유번호",0,0,1)
+    ,"mms_idx"=>array("DB고유번호",0,2,1)
     ,"mms_reg_dt"=>array("등록일",0,0,1)
 );
 $items2 = array(
@@ -92,7 +92,6 @@ $items2 = array(
     ,"mms_install_date"=>array("도입날짜",0,0,1)
     ,"mms_item"=>array("생산기종수",0,0,0)
     ,"imp_name"=>array("IMP명",0,0,0)
-    ,"mms_set_output"=>array("생산통계기준",0,0,0)
     ,"mms_status"=>array("상태",0,0,1)
 );
 $items = array_merge($items1,$items2);
@@ -110,7 +109,7 @@ $items = array_merge($items1,$items2);
 <label for="sfl" class="sound_only">검색대상</label>
 <select name="sfl" id="sfl">
     <?php
-    $skips = array('mms_idx','mms_status','mms_set_output','mms_image','trm_idx_category','mms_idx2','mms_price','mms_parts','mms_maintain','com_idx','mmg_idx','mms_checks','mms_item');
+    $skips = array('mms_idx','mms_status','mms_image','trm_idx_category','mms_idx2','mms_price','mms_parts','mms_maintain','com_idx','mmg_idx','mms_checks','mms_item');
     if(is_array($items)) {
         foreach($items as $k1 => $v1) {
             if(in_array($k1,$skips)) {continue;}
@@ -335,9 +334,6 @@ $items = array_merge($items1,$items2);
                 }
                 else if($k1=='mms_item') {
                     $row[$k1] = '<a href="./mms_item_list.php?mms_idx='.$row['mms_idx'].'" class="btn_checks">'.$row['item']['total_count'].'</a>';
-                }
-                else if($k1=='mms_set_output') {
-                    $row[$k1] = (!$row[$k1]) ? $g5['set_mms_set_data_value']['shift'] : $g5['set_mms_set_data_value'][$row[$k1]];
                 }
                 else if($k1=='mms_set_error') {
                     $row[$k1] = (!$row[$k1]) ? $g5['set_mms_set_data_value']['shift'] : $g5['set_mms_set_data_value'][$row[$k1]];

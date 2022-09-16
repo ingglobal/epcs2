@@ -9,7 +9,7 @@ if(!$config['cf_faq_skin']) $config['cf_faq_skin'] = "basic";
 if(!$config['cf_mobile_faq_skin']) $config['cf_mobile_faq_skin'] = "basic";
 
 $g5['title'] = '공통환경설정';
-include_once('./_top_menu_setting.php');
+// include_once('./_top_menu_setting.php');
 include_once('./_head.php');
 echo $g5['container_sub_title'];
 

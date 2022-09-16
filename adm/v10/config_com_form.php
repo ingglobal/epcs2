@@ -9,7 +9,7 @@ if(!$config['cf_faq_skin']) $config['cf_faq_skin'] = "basic";
 if(!$config['cf_mobile_faq_skin']) $config['cf_mobile_faq_skin'] = "basic";
 
 $g5['title'] = '업체환경설정';
-include_once('./_top_menu_setting.php');
+// include_once('./_top_menu_setting.php');
 include_once('./_head.php');
 echo $g5['container_sub_title'];
 
@@ -51,6 +51,16 @@ if ($config['cf_sms_use'] && $config['cf_icode_id'] && $config['cf_icode_pw']) {
 				<?php echo help('업체관련 디렉토리는 업체영문명으로 생성합시다.') ?>
 				<input type="text" name="set_com_directory_name" value="<?php echo $g5['com_setting']['set_com_directory_name'] ?>" id="set_status" required class="required frm_input" style="width:60%;">
 			</td>
+		</tr>
+        <tr>
+			<th scope="row">생산통계기준</th>
+			<td>
+                <select name="set_prod_stats_standard" id="set_prod_stats_standard">
+                    <option value="">생산통계기준을 선택하세요.</option>
+                    <?=$g5['set_mms_set_data_options']?>
+                </select>
+                <script>$('select[name="set_prod_stats_standard"]').val('<?=$g5['com_setting']['set_prod_stats_standard']?>');</script>
+            </td>
 		</tr>
 		<tr>
 			<th scope="row">주조기설정</th>

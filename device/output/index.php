@@ -28,7 +28,7 @@ else if(is_array($getData[0]['list'])) {
         $table_name = 'g5_1_data_output_'.$arr['mms_idx'];
 
         // 통계일자 추출을 위한 교대기준 (data/cache/mms-setting.php, 설정은 user.07.default.php)
-        $arr['mms_set_output'] = $g5['mms'][$arr['mms_idx']]['output'];
+        $arr['mms_set_output'] = $g5['com_setting']['set_prod_stats_standard'];//$g5['mms'][$arr['mms_idx']]['output'];
         if($arr['dta_date_stat'] == '0000-00-00') {
             // shift(교대기준) && 2교대 이상 && 오전입력 이라면 전일 통계일자로 합산해야 함
             if($arr['mms_set_output'] == 'shift' && $arr['dta_shf_no'] > 1 && substr($arr['dta_time'],0,2) < 12) {
